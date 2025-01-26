@@ -40,24 +40,19 @@ const timeSlots = [
 
 //TODO: Update schema types
 const formSchema = z.object({
-    username: z.string().min(2, {
-      message: "Username must be at least 2 characters.",
-    }),
     appointment_type: z.string().min(2, {
       message: "Username must be at least 2 characters.",
     }),
-    date: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
+    date: z.date({
+      message: "Please select a date.",
     }),
-    time: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
+    time: z.string({
+      message: "Please select a time.",
     }),
-    description: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
+    description: z.string({
+        message: "Please provide a description.",
     }),
-    additional_information: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
-      }),
+    additional_information: z.string().optional(),
   })
 
 export function AppointmentForm() {
@@ -67,7 +62,6 @@ export function AppointmentForm() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-          username: "",
         },
       })
 
@@ -94,9 +88,9 @@ export function AppointmentForm() {
               <FormItem>
                 <FormLabel>Appointment Type</FormLabel>
                 <FormControl>
-                  <Select>
+                  <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger className="w-[180px]">
-                          <SelectValue placeholder="Select a type" {...field} />
+                          <SelectValue placeholder="Select a type" />
                       </SelectTrigger>
                       <SelectContent>
                           <SelectGroup>
@@ -121,10 +115,12 @@ export function AppointmentForm() {
                 <div className="flex flex-row gap-5">
                     <Calendar
                         mode="single"
-                        selected={date}
-                        onSelect={setDate}
+                        selected={field.value}
+                        onSelect={(d) => {
+                          field.onChange(d)
+                          setDate(d)
+                        }}
                         className="rounded-md border w-64"
-                        {...field}
                     />
                 </div>
               </FormControl>
@@ -141,7 +137,7 @@ export function AppointmentForm() {
               <FormControl>
                 <div className="flex flex-row gap-5">
                     {
-                        <Select key={date?.toString()}>
+                        <Select key={date?.toString()} value={field.value} onValueChange={field.onChange}>
                         <SelectTrigger disabled={date == undefined} className="w-[180px]">
                             <SelectValue placeholder="Select a time" {...field} />
                         </SelectTrigger>
