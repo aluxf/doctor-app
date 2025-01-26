@@ -44,7 +44,7 @@ const appointments = [
     },
 ]
 
-export default function HomePage() {
+export default function NewAppointmentPage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2 justify-center overflow-hidden">
       <div className="flex flex-col w-screen gap-4 p-6 md:p-10">
