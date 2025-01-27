@@ -1,3 +1,4 @@
+import { AppointmentForm } from "@/components/appointment-form"
 import { AppointmentCard } from "@/components/home/appointment-card"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -43,10 +44,10 @@ const appointments = [
     },
 ]
 
-export default function HomePage() {
+export default function NewAppointmentPage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2 justify-center overflow-hidden">
-      <div className="flex flex-col gap-4 p-6 md:p-10">
+      <div className="flex flex-col w-screen gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
           <a href="#" className="flex items-center gap-2 font-medium">
             <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
@@ -56,26 +57,11 @@ export default function HomePage() {
           </a>
         </div>
         <div className="flex items-center justify-center my-10">
-            <p className="text-2xl font-medium"> Welcome Alex</p>
+            <p className="text-2xl font-medium"> New Appointment</p>
         </div>
         
-        <div className="flex flex-col items-center justify-center gap-4">
-            <Button className="w-full">New Appointment</Button>
-            <ScrollArea className="w-full h-[550px]">
-                <>
-                    <div className="flex flex-col gap-4 items-center">
-                        {appointments.map((appointment, index) => (
-                            <AppointmentCard 
-                            key={index} 
-                            title={appointment.title} 
-                            subtitle={appointment.doctor}
-                            date={appointment.date}
-                            time="14:00" 
-                            />   
-                        ))}
-                    </div>
-                </>
-            </ScrollArea>
+        <div className="flex flex-col items-center justify-center gap-4 ">
+          <AppointmentForm/>
         </div>
       </div>
       <div className="relative hidden bg-muted lg:block">

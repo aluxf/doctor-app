@@ -8,37 +8,37 @@ import { GalleryVerticalEnd } from "lucide-react"
 const appointments = [
     {
         title: "Drug Perscription",
-        doctor: "Dr. Alex Fooladi",
+        patient: "Alex Fooladi",
         date: "2025-01-24",
     },
     {
         title: "Dental Checkup",
-        doctor: "Dr. John Doe",
+        patient: "John Doe",
         date: "2025-01-25",
     },
     {
         title: "Eye Checkup",
-        doctor: "Dr. Jane Doe",
+        patient: "Jane Doe",
         date: "2025-01-26",
     },
     {
         title: "Dental Checkup",
-        doctor: "Dr. John Doe",
+        patient: "John Doe",
         date: "2025-01-25",
     },
     {
         title: "Eye Checkup",
-        doctor: "Dr. Jane Doe",
+        patient: "Jane Doe",
         date: "2025-01-26",
     },
     {
         title: "Dental Checkup",
-        doctor: "Dr. John Doe",
+        patient: "John Doe",
         date: "2025-01-25",
     },
     {
         title: "Eye Checkup",
-        doctor: "Dr. Jane Doe",
+        patient: "Jane Doe",
         date: "2025-01-26",
     },
 ]
@@ -46,7 +46,7 @@ const appointments = [
 export default function HomePage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2 justify-center overflow-hidden">
-      <div className="flex flex-col gap-4 p-6 md:p-10">
+      <div className="flex flex-col gap-4 p-6 items-center md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
           <a href="#" className="flex items-center gap-2 font-medium">
             <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
@@ -55,20 +55,35 @@ export default function HomePage() {
             Ceddy Inc.
           </a>
         </div>
-        <div className="flex items-center justify-center my-10">
-            <p className="text-2xl font-medium"> Welcome Alex</p>
-        </div>
-        
-        <div className="flex flex-col items-center justify-center gap-4">
-            <Button className="w-full">New Appointment</Button>
-            <ScrollArea className="w-full h-[550px]">
+        <div className="flex flex-col gap-3 items-center my-5">
+        <p className="text-lg font-medium">Upcoming</p>
+            <ScrollArea className="flex flex-col items-center justify-center gap-4 w-full h-[300px] border rounded-md p-2">
                 <>
                     <div className="flex flex-col gap-4 items-center">
                         {appointments.map((appointment, index) => (
                             <AppointmentCard 
                             key={index} 
                             title={appointment.title} 
-                            subtitle={appointment.doctor}
+                            subtitle={appointment.patient}
+                            date={appointment.date}
+                            time="14:00" 
+                            />   
+                        ))}
+                    </div>
+                </>
+            </ScrollArea>
+        </div>
+        <div className="flex flex-col gap-3 items-center">
+            <p className="text-lg font-medium">Requests</p>
+
+            <ScrollArea className="flex flex-col items-center justify-center gap-4 w-full h-[300px] border rounded-md p-2">
+                <>
+                    <div className="flex flex-col gap-4 items-center">
+                        {appointments.map((appointment, index) => (
+                            <AppointmentCard 
+                            key={index} 
+                            title={appointment.title} 
+                            subtitle={appointment.patient}
                             date={appointment.date}
                             time="14:00" 
                             />   
