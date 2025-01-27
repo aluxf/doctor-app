@@ -10,6 +10,7 @@ import { createUserWithEmailAndPassword, getAuth } from '@firebase/auth';
 import { auth, db } from '@/db/db'
 import { User } from "@/db/models"
 import { doc, setDoc } from '@firebase/firestore';
+import { useRouter } from 'next/navigation';
 
 const formSchema = z.object({
     name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -26,6 +27,8 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 export default function RegisterForm() {
+    const router = useRouter()
+
     const form = useForm<FormSchema>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -59,6 +62,7 @@ export default function RegisterForm() {
                 console.log("User added to Firestore");
 
                 // TODO: Navigate to the home page
+                router.push("/user/home")
             })
             .catch(error => {
                 // An error occurred. Set error message to be displayed to user
