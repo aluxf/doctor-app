@@ -65,7 +65,13 @@ export default function HomePage() {
                 <>
                     <div className="flex flex-col gap-4 items-center">
                         {appointments.map((appointment, index) => (
-                            <AppointmentCard key={index} {...appointment} />   
+                            <AppointmentCard 
+                            key={index} 
+                            title={appointment.title} 
+                            subtitle={appointment.doctor}
+                            date={appointment.date}
+                            time="14:00" 
+                            />   
                         ))}
                     </div>
                 </>
