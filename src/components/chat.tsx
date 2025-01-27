@@ -18,6 +18,7 @@ import {
 import { useRef } from "react";
 import { Input } from "./ui/input";
 import { Separator } from "@radix-ui/react-select";
+import { ScrollArea } from "./ui/scroll-area";
 
 const appointment_data = {
     doctor: "Dr. Alex Fooladi",
@@ -41,23 +42,27 @@ export function AppointmentChat() {
     }
     
     return (
-        <div className="flex flex-col h-full w-screen p-2 items-center">
-            <ChatMessageList className="">
-                <ChatBubble className="max-w-[80%]" variant="sent">
-                        <ChatBubbleAvatar src="" fallback="🤖" />
-                        <ChatBubbleMessage>
-                            {appointment_data.type}
-                        </ChatBubbleMessage>
-                </ChatBubble>
-                <ChatBubble className="max-w-[80%]" variant="sent">
-                        <ChatBubbleAvatar src="" fallback="🤖" />
-                        <ChatBubbleMessage>
-                            {appointment_data.description}
-                        </ChatBubbleMessage>
-                </ChatBubble>
+        <div className="flex flex-col w-screen p-2 items-center gap-4">
+            <ScrollArea className=" rounded-md border">
 
-            </ChatMessageList>
-            <footer className="w-full">
+                <ChatMessageList className="">
+                    <ChatBubble className="max-w-[80%]" variant="sent">
+                            <ChatBubbleAvatar src="" fallback="🤖" />
+                            <ChatBubbleMessage>
+                                {appointment_data.type}
+                            </ChatBubbleMessage>
+                    </ChatBubble>
+                    <ChatBubble className="max-w-[80%]" variant="sent">
+                            <ChatBubbleAvatar src="" fallback="🤖" />
+                            <ChatBubbleMessage>
+                                {appointment_data.description}
+                            </ChatBubbleMessage>
+                    </ChatBubble>
+
+                </ChatMessageList>
+            </ScrollArea>
+            
+            <footer className="w-full flex-grow">
 
                 <form ref={formRef} className="flex relative gap-2" onSubmit={onSubmit}>
                     <Input

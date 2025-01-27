@@ -8,8 +8,8 @@ import { GalleryVerticalEnd } from "lucide-react"
 
 export default function AppointmentPage() {
   return (
-    <div className="grid min-h-svh lg:grid-cols-2 justify-center overflow-hidden">
-      <div className="flex flex-col w-screen gap-4 p-6 md:p-10">
+    <div className="grid   min-h-svh lg:grid-cols-2 justify-center overflow-hidden">
+      <div className="flex max-h-screen flex-col w-screen gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
           <a href="#" className="flex items-center gap-2 font-medium">
             <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
@@ -23,7 +23,7 @@ export default function AppointmentPage() {
             <p className="text-stone-400"> 2025-01-26</p>
         </div>
         
-        <div className="flex flex-col h-full items-center justify-center gap-4 ">
+        <div className="flex flex-col items-center justify-center gap-4 ">
           <AppointmentChat/>
         </div>
       </div>
