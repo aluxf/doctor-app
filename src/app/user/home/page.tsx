@@ -1,3 +1,5 @@
+"use client"
+import withAuth from "@/components/with-auth"
 import { AppointmentCard } from "@/components/home/appointment-card"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -43,7 +45,7 @@ const appointments = [
     },
 ]
 
-export default function HomePage() {
+function HomePage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2 justify-center overflow-hidden">
       <div className="flex flex-col gap-4 p-6 md:p-10">
@@ -88,3 +90,5 @@ export default function HomePage() {
     </div>
   )
 }
+
+export default withAuth(HomePage)
