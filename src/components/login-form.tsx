@@ -44,7 +44,7 @@ function LoginForm({
       const userRef = doc(db, "users", userCredential.user.uid);
       const userDoc = await getDoc(userRef)
       const role = userDoc.data()?.role;
-      if (role === "patient") router.push('/patient/home');
+      if (role === "patient") router.push('/user/home');
       else if (role === "doctor") router.push('/doc/home');
     } catch (error) {
       // An error occurred. Set error message to be displayed to user

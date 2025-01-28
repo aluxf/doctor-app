@@ -32,4 +32,4 @@ function RegisterPage() {
   )
 }
 
-export default Redirect(RegisterPage)
+export default RegisterPage
