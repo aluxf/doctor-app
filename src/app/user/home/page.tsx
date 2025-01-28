@@ -1,8 +1,13 @@
+"use client"
+import withAuth from "@/components/with-auth"
 import { AppointmentCard } from "@/components/home/appointment-card"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { GalleryVerticalEnd } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { signOut } from "@firebase/auth"
+import { auth } from "@/db/db"
 
 
 const appointments = [
@@ -43,10 +48,25 @@ const appointments = [
     },
 ]
 
-export default function HomePage() {
+function HomePage() {
+
+  const router = useRouter()
+
+  const handleSignOut = async () => {
+    try {
+        await signOut(auth)
+        router.push('/login')
+    } catch (error) {
+        console.error("Error signing out: ", error)
+    }
+  }
+
   return (
     <div className="grid min-h-svh lg:grid-cols-2 justify-center overflow-hidden">
       <div className="flex flex-col gap-4 p-6 md:p-10">
+      <div className="flex justify-end text-xs">
+                <Button className="text-xs" onClick={handleSignOut}>Sign Out</Button>
+            </div>
         <div className="flex justify-center gap-2 md:justify-start">
           <a href="#" className="flex items-center gap-2 font-medium">
             <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
@@ -88,3 +108,5 @@ export default function HomePage() {
     </div>
   )
 }
+
+export default withAuth(HomePage, 'patient')

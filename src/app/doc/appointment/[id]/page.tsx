@@ -1,7 +1,9 @@
+"use client"
 import { AppointmentChat } from "@/components/chat"
+import withAuth from "@/components/with-auth"
 import { GalleryVerticalEnd } from "lucide-react"
 
-export default function AppointmentPage() {
+function AppointmentPage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2 justify-center overflow-hidden">
       <div className="flex max-h-screen flex-col w-screen gap-4 p-6 md:p-10">
@@ -25,3 +27,5 @@ export default function AppointmentPage() {
     </div>
   )
 }
+
+export default withAuth(AppointmentPage, 'doctor')

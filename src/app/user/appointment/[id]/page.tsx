@@ -1,12 +1,14 @@
+"use client"
 import { AppointmentForm } from "@/components/appointment-form"
 import { AppointmentChat } from "@/components/chat"
 import { AppointmentCard } from "@/components/home/appointment-card"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import withAuth from "@/components/with-auth"
 import { GalleryVerticalEnd } from "lucide-react"
 
-export default function AppointmentPage() {
+function AppointmentPage() {
   return (
     <div className="grid   min-h-svh lg:grid-cols-2 justify-center overflow-hidden">
       <div className="flex max-h-screen flex-col w-screen gap-4 p-6 md:p-10">
@@ -30,3 +32,5 @@ export default function AppointmentPage() {
     </div>
   )
 }
+
+export default withAuth(AppointmentPage, 'patient')
