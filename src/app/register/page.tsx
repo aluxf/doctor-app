@@ -1,9 +1,22 @@
 "use client"
 import { GalleryVerticalEnd } from "lucide-react"
 import RegisterForm from "@/components/register-form"
-import Redirect from "@/components/redirect"
+import { useEffect } from "react"
+import { useAuth } from "@/hooks/useAuth"
+import { useRouter } from "next/navigation"
 
 function RegisterPage() {
+
+  const { user, role, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      if (role === "patient") router.push('/user/home');
+      else if (role === "doctor") router.push('/doc/home');
+    }
+  }, [user])
+
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
@@ -32,4 +45,4 @@ function RegisterPage() {
   )
 }
 
-export default Redirect(RegisterPage)
+export default RegisterPage

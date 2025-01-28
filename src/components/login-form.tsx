@@ -11,7 +11,6 @@ import { auth, db } from "@/db/db";
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { doc, getDoc } from '@firebase/firestore';
-import Redirect from './redirect';
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
