@@ -7,9 +7,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/db/db";
+import { auth, db } from "@/db/db";
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { doc, getDoc } from '@firebase/firestore';
+import Redirect from './redirect';
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
@@ -18,7 +20,7 @@ const formSchema = z.object({
 
 type FormSchema = z.infer<typeof formSchema>;
 
-export function LoginForm({
+function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"form">) {
@@ -39,7 +41,11 @@ export function LoginForm({
       console.log(userCredential);
 
       // Navigate to the home page
-      router.push('/user/home');
+      const userRef = doc(db, "users", userCredential.user.uid);
+      const userDoc = await getDoc(userRef)
+      const role = userDoc.data()?.role;
+      if (role === "patient") router.push('/patient/home');
+      else if (role === "doctor") router.push('/doc/home');
     } catch (error) {
       // An error occurred. Set error message to be displayed to user
       console.error("Error logging in: ", error);
@@ -106,3 +112,5 @@ export function LoginForm({
     </div>
   );
 }
+
+export default LoginForm

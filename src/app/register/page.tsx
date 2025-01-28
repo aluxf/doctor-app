@@ -1,7 +1,9 @@
+"use client"
 import { GalleryVerticalEnd } from "lucide-react"
 import RegisterForm from "@/components/register-form"
+import Redirect from "@/components/redirect"
 
-export default function LoginPage() {
+function RegisterPage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
@@ -29,3 +31,5 @@ export default function LoginPage() {
     </div>
   )
 }
+
+export default Redirect(RegisterPage)
