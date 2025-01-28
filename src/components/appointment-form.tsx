@@ -6,6 +6,7 @@ import { z } from "zod"
 import { Form,FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
+import { Appointment } from "@/db/models"
 
 import {
     Select,
@@ -19,6 +20,9 @@ import {
 import { Textarea } from "./ui/textarea"
 import { useState } from "react"
 import { Calendar } from "./ui/calendar"
+import { auth, db } from "@/db/db"
+import { addDoc, collection, getDocs, query, Timestamp, where } from "@firebase/firestore"
+import { useRouter } from "next/navigation"
 
 const fullTimeSlots = {
     "2025-01-09 14:00": true
@@ -40,8 +44,8 @@ const timeSlots = [
 
 //TODO: Update schema types
 const formSchema = z.object({
-    appointment_type: z.string().min(2, {
-      message: "Username must be at least 2 characters.",
+    appointment_type: z.enum(["general", "prescription"], {
+      message: "Please select a valid appointment type.",
     }),
     date: z.date({
       message: "Please select a date.",
@@ -52,23 +56,83 @@ const formSchema = z.object({
     description: z.string({
         message: "Please provide a description.",
     }),
-    additional_information: z.string().optional(),
   })
 
 export function AppointmentForm() {
 
     const [date, setDate] = useState<Date | undefined>(new Date())
+    const router = useRouter()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
         },
-      })
+    })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        console.log(values)
+        // Split the string into hours and minutes
+      let [hours, minutes] = values.time.split(":").map(Number);
+
+      // Set the time on the date object
+      values.date.setHours(hours, minutes, 0, 0); // Hours, minutes, seconds, milliseconds
+      const startDateTime = values.date;
+      const endDateTime = new Date(startDateTime);
+      endDateTime.setMinutes(startDateTime.getMinutes() + 30);
+
+      console.log(startDateTime, endDateTime);
+        try {
+          if (!auth.currentUser) {
+            throw new Error("User is not logged in.")
+          }
+          const user = auth.currentUser;
+
+          // TODO: Move to cloud function
+
+          // Fetch all appointments with the same startDate
+          const appointmentsQuery = query(
+            collection(db, 'appointments'),
+            where('startDateTime', '==', Timestamp.fromDate(startDateTime)),
+          );
+
+          const appointmentsSnapshot = await getDocs(appointmentsQuery);
+          const appointments = appointmentsSnapshot.docs.map(doc => doc.data() as Appointment);
+
+          // Fetch all doctors
+          const doctorsQuery = query(collection(db, 'users'), where('role', '==', 'doctor'));
+          const doctorsSnapshot = await getDocs(doctorsQuery);
+          const doctors = doctorsSnapshot.docs.map(doc => doc.id);
+
+          // Filter out doctors who already have an appointment at the same time
+          const availableDoctors = doctors.filter(doctorId =>
+            !appointments.some(appointment => appointment.doctorId === doctorId)
+          );
+
+          if (availableDoctors.length === 0) {
+            throw new Error("No available doctors at this time.");
+          }
+    
+          // Randomize a doctor from the available doctors
+          const randomDoctorId = availableDoctors[Math.floor(Math.random() * availableDoctors.length)];
+
+          const appointment: Appointment = {
+            type: values.appointment_type,
+            startDateTime: startDateTime,
+            endDateTime: endDateTime,
+            description: values.description,
+            patientId: user.uid,
+            doctorId: randomDoctorId,
+            status: "requested"
+          }
+
+          await addDoc(collection(db, 'appointments'), appointment);
+          console.log("Appointment added to Firestore:", appointment);
+
+          router.push('/user/home')
+        } catch (error) {
+          console.error("Error adding appointment:", error);
+        }
     }
 
     /**
@@ -169,19 +233,6 @@ export function AppointmentForm() {
               <FormLabel>Description</FormLabel>
               <FormControl>
                 <Textarea placeholder="" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="additional_information"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Additional information</FormLabel>
-              <FormControl>
-                <Textarea placeholder=""  {...field}/>
               </FormControl>
               <FormMessage />
             </FormItem>

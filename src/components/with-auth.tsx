@@ -21,7 +21,7 @@ const withAuth = <WithAuthProps extends Record<string, unknown>>(
     }, [user, role, loading, router]);
 
     if (loading) {
-      return <div>Loading...</div>;
+      return <div></div>;
     }
 
     return user && role === requiredRole ? <Component {...props} /> : null;

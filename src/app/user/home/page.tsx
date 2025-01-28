@@ -80,7 +80,7 @@ function HomePage() {
         </div>
         
         <div className="flex flex-col items-center justify-center gap-4">
-            <Button className="w-full">New Appointment</Button>
+            <Button onClick={() => router.push("/user/appointment")} className="w-full">New Appointment</Button>
             <ScrollArea className="w-full h-[550px]">
                 <>
                     <div className="flex flex-col gap-4 items-center">

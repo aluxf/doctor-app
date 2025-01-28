@@ -6,14 +6,10 @@ export interface User {
     birthDate: string; // ISO date string
     role: 'patient' | 'doctor';
   }
-  
-  export interface Appointment {
-    doctorId: string;
-    appointmentRequestId: string;
-  }
 
-  export interface AppointmentRequest {
+  export interface Appointment {
     patientId: string;
+    doctorId: string;
     type: 'general' | 'prescription';
     description: string;
     status: 'requested' | 'accepted' |'rejected' | 'archived'; // Default status for new requests

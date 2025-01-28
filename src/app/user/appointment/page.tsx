@@ -7,45 +7,6 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import withAuth from "@/components/with-auth"
 import { GalleryVerticalEnd } from "lucide-react"
 
-
-const appointments = [
-    {
-        title: "Drug Perscription",
-        doctor: "Dr. Alex Fooladi",
-        date: "2025-01-24",
-    },
-    {
-        title: "Dental Checkup",
-        doctor: "Dr. John Doe",
-        date: "2025-01-25",
-    },
-    {
-        title: "Eye Checkup",
-        doctor: "Dr. Jane Doe",
-        date: "2025-01-26",
-    },
-    {
-        title: "Dental Checkup",
-        doctor: "Dr. John Doe",
-        date: "2025-01-25",
-    },
-    {
-        title: "Eye Checkup",
-        doctor: "Dr. Jane Doe",
-        date: "2025-01-26",
-    },
-    {
-        title: "Dental Checkup",
-        doctor: "Dr. John Doe",
-        date: "2025-01-25",
-    },
-    {
-        title: "Eye Checkup",
-        doctor: "Dr. Jane Doe",
-        date: "2025-01-26",
-    },
-]
-
 function NewAppointmentPage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2 justify-center overflow-hidden">
@@ -65,13 +26,6 @@ function NewAppointmentPage() {
         <div className="flex flex-col items-center justify-center gap-4 ">
           <AppointmentForm/>
         </div>
-      </div>
-      <div className="relative hidden bg-muted lg:block">
-        <img
-          src="/placeholder.svg"
-          alt="Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-        />
       </div>
     </div>
   )
