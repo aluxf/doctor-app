@@ -8,23 +8,20 @@ export interface User {
   }
   
   export interface Appointment {
-    id: string; // unique
     doctorId: string;
     appointmentRequestId: string;
   }
 
   export interface AppointmentRequest {
-    id: string // unique
     patientId: string;
     type: 'general' | 'prescription';
     description: string;
     status: 'requested' | 'accepted' |'rejected' | 'archived'; // Default status for new requests
-    startDateTime: string; // ISO date string
-    endDateTime: string; // ISO date string
+    startDateTime: Date; // ISO date string
+    endDateTime: Date; // ISO date string
   }
   
   export interface Message {
-    id: string; // unique
     appointmentId: string;
     fromId: string;
     message: string;
