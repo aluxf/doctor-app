@@ -9,11 +9,16 @@ export interface User {
   
   export interface Appointment {
     id: string; // unique
-    patientId: string;
     doctorId: string;
-    type: 'general' | 'followup' | 'prescription';
+    appointmentRequestId: string;
+  }
+
+  export interface AppointmentRequest {
+    id: string // unique
+    patientId: string;
+    type: 'general' | 'prescription';
     description: string;
-    status: 'requested' | 'accepted' | 'rejected' | 'archived';
+    status: 'requested' | 'accepted' |'rejected' | 'archived'; // Default status for new requests
     startDateTime: string; // ISO date string
     endDateTime: string; // ISO date string
   }
