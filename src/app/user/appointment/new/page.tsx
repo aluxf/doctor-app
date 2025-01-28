@@ -1,3 +1,4 @@
+"use client"
 import { AppointmentForm } from "@/components/appointment-form"
 import { AppointmentCard } from "@/components/home/appointment-card"
 import { Button } from "@/components/ui/button"
@@ -76,4 +77,4 @@ function NewAppointmentPage() {
   )
 }
 
-export default withAuth(NewAppointmentPage)
+export default withAuth(NewAppointmentPage, 'patient')

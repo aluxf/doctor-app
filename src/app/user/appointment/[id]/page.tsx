@@ -1,3 +1,4 @@
+"use client"
 import { AppointmentForm } from "@/components/appointment-form"
 import { AppointmentChat } from "@/components/chat"
 import { AppointmentCard } from "@/components/home/appointment-card"
@@ -32,4 +33,4 @@ function AppointmentPage() {
   )
 }
 
-export default withAuth(AppointmentPage)
+export default withAuth(AppointmentPage, 'patient')
