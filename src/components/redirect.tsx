@@ -19,7 +19,7 @@ const Redirect = <RedirectProps extends Record<string, unknown>>(
         router.push('/login');
       }
       else if (user) {
-        if (role === "patient") router.push('/patient/home');
+        if (role === "patient") router.push('/user/home');
         else if (role === "doctor") router.push('/doc/home');
       }
     }, [user, role, loading, router]);
