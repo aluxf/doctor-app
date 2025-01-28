@@ -1,112 +1,45 @@
-"use client"
-import withAuth from "@/components/with-auth"
-import { AppointmentCard } from "@/components/home/appointment-card"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { GalleryVerticalEnd } from "lucide-react"
-import { useRouter } from "next/navigation"
-import { signOut } from "@firebase/auth"
-import { auth } from "@/db/db"
+// That's used by default, but anyway
+"use server"
+import React from 'react'
+import ClientPage from './clientPage'
+import { collection, getDocs, doc, getDoc } from '@firebase/firestore'
+import { db } from '@/db/db'
 
+const getServerDataForClient = async () => {
+    console.log('That was executed on the server side')
+    
+    const appointmentsSnapshot = await getDocs(collection(db, 'appointments'));
+    
+    const appointmentsPromises = appointmentsSnapshot.docs.map(async (currentDoc) => {
+      const data = currentDoc.data();
 
-const appointments = [
-    {
-        title: "Drug Perscription",
-        doctor: "Dr. Alex Fooladi",
-        date: "2025-01-24",
-    },
-    {
-        title: "Dental Checkup",
-        doctor: "Dr. John Doe",
-        date: "2025-01-25",
-    },
-    {
-        title: "Eye Checkup",
-        doctor: "Dr. Jane Doe",
-        date: "2025-01-26",
-    },
-    {
-        title: "Dental Checkup",
-        doctor: "Dr. John Doe",
-        date: "2025-01-25",
-    },
-    {
-        title: "Eye Checkup",
-        doctor: "Dr. Jane Doe",
-        date: "2025-01-26",
-    },
-    {
-        title: "Dental Checkup",
-        doctor: "Dr. John Doe",
-        date: "2025-01-25",
-    },
-    {
-        title: "Eye Checkup",
-        doctor: "Dr. Jane Doe",
-        date: "2025-01-26",
-    },
-]
+      const doctorRef = doc(db, 'users', data.doctorId); // Assuming 'users' collection contains doctor info
+      const doctorDoc = await getDoc(doctorRef);
+      const doctorName = doctorDoc.exists() ? doctorDoc.data().name : 'Unknown Doctor';
 
-function HomePage() {
+      // TODO: Extract to utils functions
+      const dateTimeString = data.startDateTime.toDate().toISOString() // Convert Firestore Timestamp to ISO date string
+      const dateString = dateTimeString.split('T')[0];
+      const timeString = dateTimeString.split('T')[1].split('.')[0]; // Remove milliseconds
 
-  const router = useRouter()
+      return {
+        type: data.type,
+        doctor: doctorName,
+        date: dateString,
+        time: timeString,
+      };
+    });
 
-  const handleSignOut = async () => {
-    try {
-        await signOut(auth)
-        router.push('/login')
-    } catch (error) {
-        console.error("Error signing out: ", error)
-    }
-  }
+    const appointments = await Promise.all(appointmentsPromises);
 
-  return (
-    <div className="grid min-h-svh lg:grid-cols-2 justify-center overflow-hidden">
-      <div className="flex flex-col gap-4 p-6 md:p-10">
-      <div className="flex justify-end text-xs">
-                <Button className="text-xs" onClick={handleSignOut}>Sign Out</Button>
-            </div>
-        <div className="flex justify-center gap-2 md:justify-start">
-          <a href="#" className="flex items-center gap-2 font-medium">
-            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <GalleryVerticalEnd className="size-4" />
-            </div>
-            Ceddy Inc.
-          </a>
-        </div>
-        <div className="flex items-center justify-center my-10">
-            <p className="text-2xl font-medium"> Welcome Alex</p>
-        </div>
-        
-        <div className="flex flex-col items-center justify-center gap-4">
-            <Button onClick={() => router.push("/user/appointment")} className="w-full">New Appointment</Button>
-            <ScrollArea className="w-full h-[550px]">
-                <>
-                    <div className="flex flex-col gap-4 items-center">
-                        {appointments.map((appointment, index) => (
-                            <AppointmentCard 
-                            key={index} 
-                            title={appointment.title} 
-                            subtitle={appointment.doctor}
-                            date={appointment.date}
-                            time="14:00" 
-                            />   
-                        ))}
-                    </div>
-                </>
-            </ScrollArea>
-        </div>
-      </div>
-      <div className="relative hidden bg-muted lg:block">
-        <img
-          src="/placeholder.svg"
-          alt="Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-        />
-      </div>
-    </div>
-  )
+  return appointments
 }
 
-export default withAuth(HomePage, 'patient')
+const Page = async () => {
+  console.log('That also was executed on the server side')
+  const serverData = await getServerDataForClient()
+
+  return <ClientPage appointments={serverData} />
+}
+
+export default Page

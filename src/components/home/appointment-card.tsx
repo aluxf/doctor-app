@@ -23,7 +23,7 @@ export function AppointmentCard({ title, subtitle, date, time }: AppointmentCard
         <CardHeader className="flex flex-row space-y-0 p-5">
           <div className="flex flex-col gap-2">
               <CardTitle>{title}</CardTitle>
-              <CardDescription>{subtitle}</CardDescription>
+              <CardDescription>Dr. {subtitle}</CardDescription>
           </div>
           <div className="ml-auto">
               <CardDescription>{date}</CardDescription>
