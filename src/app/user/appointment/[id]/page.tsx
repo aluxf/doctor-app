@@ -1,36 +1,46 @@
-"use client"
-import { AppointmentForm } from "@/components/appointment-form"
-import { AppointmentChat } from "@/components/chat"
-import { AppointmentCard } from "@/components/home/appointment-card"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import withAuth from "@/components/with-auth"
-import { GalleryVerticalEnd } from "lucide-react"
+// That's used by default, but anyway
+"use server"
+import React from 'react'
+import ClientPage from './clientPage'
+import { collection, getDocs, doc, getDoc } from '@firebase/firestore'
+import { db } from '@/db/db'
 
-function AppointmentPage() {
-  return (
-    <div className="grid   min-h-svh lg:grid-cols-2 justify-center overflow-hidden">
-      <div className="flex max-h-screen flex-col w-screen gap-4 p-6 md:p-10">
-        <div className="flex justify-center gap-2 md:justify-start">
-          <a href="#" className="flex items-center gap-2 font-medium">
-            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <GalleryVerticalEnd className="size-4" />
-            </div>
-            Ceddy Inc.
-          </a>
-        </div>
-        <div className="flex flex-col items-center justify-center mt-10">
-            <p className="text-2xl font-medium"> Appointment: 12324</p>
-            <p className="text-stone-400"> 2025-01-26</p>
-        </div>
-        
-        <div className="flex flex-col items-center justify-center gap-4 ">
-          <AppointmentChat/>
-        </div>
-      </div>
-    </div>
-  )
+const getServerDataForClient = async () => {
+    console.log('That was executed on the server side')
+    
+    const appointmentsSnapshot = await getDocs(collection(db, 'appointments'));
+    
+    const appointmentsPromises = appointmentsSnapshot.docs.map(async (currentDoc) => {
+      const data = currentDoc.data();
+
+      const doctorRef = doc(db, 'users', data.doctorId); // Assuming 'users' collection contains doctor info
+      const doctorDoc = await getDoc(doctorRef);
+      const doctorName = doctorDoc.exists() ? doctorDoc.data().name : 'Unknown Doctor';
+
+      // TODO: Extract to utils functions
+      const dateTimeString = data.startDateTime.toDate().toISOString() // Convert Firestore Timestamp to ISO date string
+      const dateString = dateTimeString.split('T')[0];
+      const timeString = dateTimeString.split('T')[1].split('.')[0]; // Remove milliseconds
+
+      return {
+        id: currentDoc.id,
+        type: data.type,
+        doctor: doctorName,
+        date: dateString,
+        time: timeString,
+      };
+    });
+
+    const appointments = await Promise.all(appointmentsPromises);
+
+  return appointments
 }
 
-export default withAuth(AppointmentPage, 'patient')
+const Page = async () => {
+  console.log('That also was executed on the server side')
+  const serverData = await getServerDataForClient()
+
+  return <ClientPage appointments={serverData} />
+}
+
+export default Page

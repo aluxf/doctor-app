@@ -23,6 +23,7 @@ const getServerDataForClient = async () => {
       const timeString = dateTimeString.split('T')[1].split('.')[0]; // Remove milliseconds
 
       return {
+        id: currentDoc.id,
         type: data.type,
         doctor: doctorName,
         date: dateString,

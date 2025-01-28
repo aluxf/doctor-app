@@ -1,6 +1,6 @@
 "use client"
 import { AppointmentForm } from "@/components/appointment-form"
-import { AppointmentCard } from "@/components/home/appointment-card"
+import { AppointmentCard } from "@/components/appointment-card"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -20,11 +20,11 @@ function NewAppointmentPage() {
           </a>
         </div>
         <div className="flex items-center justify-center my-10">
-            <p className="text-2xl font-medium"> New Appointment</p>
+          <p className="text-2xl font-medium"> New Appointment</p>
         </div>
-        
+
         <div className="flex flex-col items-center justify-center gap-4 ">
-          <AppointmentForm/>
+          <AppointmentForm />
         </div>
       </div>
     </div>

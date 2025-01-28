@@ -1,5 +1,5 @@
 "use client"
-import { AppointmentCard } from "@/components/home/appointment-card"
+import { AppointmentCard } from "@/components/appointment-card"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -8,41 +8,41 @@ import { GalleryVerticalEnd } from "lucide-react"
 
 
 const appointments = [
-    {
-        title: "Drug Perscription",
-        patient: "Alex Fooladi",
-        date: "2025-01-24",
-    },
-    {
-        title: "Dental Checkup",
-        patient: "John Doe",
-        date: "2025-01-25",
-    },
-    {
-        title: "Eye Checkup",
-        patient: "Jane Doe",
-        date: "2025-01-26",
-    },
-    {
-        title: "Dental Checkup",
-        patient: "John Doe",
-        date: "2025-01-25",
-    },
-    {
-        title: "Eye Checkup",
-        patient: "Jane Doe",
-        date: "2025-01-26",
-    },
-    {
-        title: "Dental Checkup",
-        patient: "John Doe",
-        date: "2025-01-25",
-    },
-    {
-        title: "Eye Checkup",
-        patient: "Jane Doe",
-        date: "2025-01-26",
-    },
+  {
+    title: "Drug Perscription",
+    patient: "Alex Fooladi",
+    date: "2025-01-24",
+  },
+  {
+    title: "Dental Checkup",
+    patient: "John Doe",
+    date: "2025-01-25",
+  },
+  {
+    title: "Eye Checkup",
+    patient: "Jane Doe",
+    date: "2025-01-26",
+  },
+  {
+    title: "Dental Checkup",
+    patient: "John Doe",
+    date: "2025-01-25",
+  },
+  {
+    title: "Eye Checkup",
+    patient: "Jane Doe",
+    date: "2025-01-26",
+  },
+  {
+    title: "Dental Checkup",
+    patient: "John Doe",
+    date: "2025-01-25",
+  },
+  {
+    title: "Eye Checkup",
+    patient: "Jane Doe",
+    date: "2025-01-26",
+  },
 ]
 
 function HomePage() {
@@ -58,41 +58,41 @@ function HomePage() {
           </a>
         </div>
         <div className="flex flex-col gap-3 items-center my-5">
-        <p className="text-lg font-medium">Upcoming</p>
-            <ScrollArea className="flex flex-col items-center justify-center gap-4 w-full h-[300px] border rounded-md p-2">
-                <>
-                    <div className="flex flex-col gap-4 items-center">
-                        {appointments.map((appointment, index) => (
-                            <AppointmentCard 
-                            key={index} 
-                            title={appointment.title} 
-                            subtitle={appointment.patient}
-                            date={appointment.date}
-                            time="14:00" 
-                            />   
-                        ))}
-                    </div>
-                </>
-            </ScrollArea>
+          <p className="text-lg font-medium">Upcoming</p>
+          <ScrollArea className="flex flex-col items-center justify-center gap-4 w-full h-[300px] border rounded-md p-2">
+            <>
+              <div className="flex flex-col gap-4 items-center">
+                {appointments.map((appointment, index) => (
+                  <AppointmentCard
+                    key={index}
+                    title={appointment.title}
+                    subtitle={appointment.patient}
+                    date={appointment.date}
+                    time="14:00"
+                  />
+                ))}
+              </div>
+            </>
+          </ScrollArea>
         </div>
         <div className="flex flex-col gap-3 items-center">
-            <p className="text-lg font-medium">Requests</p>
+          <p className="text-lg font-medium">Requests</p>
 
-            <ScrollArea className="flex flex-col items-center justify-center gap-4 w-full h-[300px] border rounded-md p-2">
-                <>
-                    <div className="flex flex-col gap-4 items-center">
-                        {appointments.map((appointment, index) => (
-                            <AppointmentCard 
-                            key={index} 
-                            title={appointment.title} 
-                            subtitle={appointment.patient}
-                            date={appointment.date}
-                            time="14:00" 
-                            />   
-                        ))}
-                    </div>
-                </>
-            </ScrollArea>
+          <ScrollArea className="flex flex-col items-center justify-center gap-4 w-full h-[300px] border rounded-md p-2">
+            <>
+              <div className="flex flex-col gap-4 items-center">
+                {appointments.map((appointment, index) => (
+                  <AppointmentCard
+                    key={index}
+                    title={appointment.title}
+                    subtitle={appointment.patient}
+                    date={appointment.date}
+                    time="14:00"
+                  />
+                ))}
+              </div>
+            </>
+          </ScrollArea>
         </div>
       </div>
       <div className="relative hidden bg-muted lg:block">

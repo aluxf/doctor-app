@@ -15,11 +15,14 @@ interface AppointmentCardProps {
     subtitle: string
     date: string
     time: string
+    onClick?: () => void
 }
 
-export function AppointmentCard({ title, subtitle, date, time }: AppointmentCardProps) {
+export function AppointmentCard({ title, subtitle, date, time, onClick }: AppointmentCardProps) {
+    
+    const handleClick = onClick ? onClick : () => {}
     return (
-      <Card className="w-[350px] p-0">
+      <Card onClick={handleClick} className="w-[350px] p-0">
         <CardHeader className="flex flex-row space-y-0 p-5">
           <div className="flex flex-col gap-2">
               <CardTitle>{title}</CardTitle>
