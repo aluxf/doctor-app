@@ -15,10 +15,7 @@ const Redirect = <RedirectProps extends Record<string, unknown>>(
     const router = useRouter();
 
     useEffect(() => {
-      if (!loading && (!user)) {
-        router.push('/login');
-      }
-      else if (user) {
+      if (user) {
         if (role === "patient") router.push('/user/home');
         else if (role === "doctor") router.push('/doc/home');
       }
