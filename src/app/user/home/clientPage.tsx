@@ -9,12 +9,13 @@ import { useRouter } from "next/navigation"
 import { signOut } from "@firebase/auth"
 import { auth } from "@/db/db"
 
-type AppointmentProp = {
+export type AppointmentProp = {
   id: string
   type: string
   doctor: string
   date: string
-  time: string
+  startTime: string
+  endTime: string
 }
 
 function HomePage({ appointments }: { appointments: AppointmentProp[] }) {
@@ -60,7 +61,7 @@ function HomePage({ appointments }: { appointments: AppointmentProp[] }) {
                     title={appointment.type.charAt(0).toUpperCase() + appointment.type.slice(1)}
                     subtitle={appointment.doctor}
                     date={appointment.date}
-                    time={appointment.time}
+                    time={appointment.startTime}
                   />
                 ))}
               </div>

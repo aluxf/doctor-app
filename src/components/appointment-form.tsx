@@ -118,8 +118,8 @@ export function AppointmentForm() {
 
           const appointment: Appointment = {
             type: values.appointment_type,
-            startDateTime: startDateTime,
-            endDateTime: endDateTime,
+            startDateTime: Timestamp.fromDate(startDateTime),
+            endDateTime: Timestamp.fromDate(endDateTime),
             description: values.description,
             patientId: user.uid,
             doctorId: randomDoctorId,

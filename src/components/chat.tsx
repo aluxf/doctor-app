@@ -19,6 +19,8 @@ import { useRef } from "react";
 import { Input } from "./ui/input";
 import { Separator } from "@radix-ui/react-select";
 import { ScrollArea } from "./ui/scroll-area";
+import { Message } from "@/db/models";
+import { AugmentedAppointment } from "@/lib/types";
 
 const appointment_data = {
     doctor: "Dr. Alex Fooladi",
@@ -29,12 +31,9 @@ const appointment_data = {
     additional_information: "I have been sneezing a lot lately"
 }
 
-export function AppointmentChat() {
+export function AppointmentChat({appointment, messageHistory, isPatient} : {appointment: AugmentedAppointment, messageHistory: Message[], isPatient: boolean}) {
     const [input, setInput] = React.useState("");
     const formRef = useRef<HTMLFormElement>(null);
-
-
-    
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log(input);

@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase/firestore';
+
 export interface User {
     id: string; // unique
     name: string;
@@ -13,8 +15,8 @@ export interface User {
     type: 'general' | 'prescription';
     description: string;
     status: 'requested' | 'accepted' |'rejected' | 'archived'; // Default status for new requests
-    startDateTime: Date; // ISO date string
-    endDateTime: Date; // ISO date string
+    startDateTime: Timestamp; // ISO date string
+    endDateTime: Timestamp; // ISO date string
   }
   
   export interface Message {

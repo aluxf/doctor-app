@@ -4,6 +4,8 @@ import React from 'react'
 import ClientPage from './clientPage'
 import { collection, getDocs, doc, getDoc } from '@firebase/firestore'
 import { db } from '@/db/db'
+import { getAppointmentDateTimeStrings } from '@/lib/utils'
+import { Appointment } from '@/db/models'
 
 const getServerDataForClient = async () => {
     console.log('That was executed on the server side')
@@ -11,23 +13,22 @@ const getServerDataForClient = async () => {
     const appointmentsSnapshot = await getDocs(collection(db, 'appointments'));
     
     const appointmentsPromises = appointmentsSnapshot.docs.map(async (currentDoc) => {
-      const data = currentDoc.data();
+      const data = currentDoc.data() as Appointment;
 
       const doctorRef = doc(db, 'users', data.doctorId); // Assuming 'users' collection contains doctor info
       const doctorDoc = await getDoc(doctorRef);
       const doctorName = doctorDoc.exists() ? doctorDoc.data().name : 'Unknown Doctor';
 
       // TODO: Extract to utils functions
-      const dateTimeString = data.startDateTime.toDate().toISOString() // Convert Firestore Timestamp to ISO date string
-      const dateString = dateTimeString.split('T')[0];
-      const timeString = dateTimeString.split('T')[1].split('.')[0]; // Remove milliseconds
+      const { dateString, startTimeString, endTimeString } = getAppointmentDateTimeStrings(data)
 
       return {
         id: currentDoc.id,
         type: data.type,
         doctor: doctorName,
         date: dateString,
-        time: timeString,
+        startTime: startTimeString,
+        endTime: endTimeString
       };
     });
 

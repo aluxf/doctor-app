@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-
 interface AppointmentCardProps {
     title: string
     subtitle: string

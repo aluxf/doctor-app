@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { app } from "@/db/db"
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 console.log(app)
 
@@ -25,6 +28,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [isFirebaseInitialized, setIsFirebaseInitialized] = useState(false);
+  const router = useRouter();
+  const { user, role, loading } = useAuth();
+
+  // List of routes to exclude from displaying the splash screen
+  const excludedRoutes = ['/login', '/register'];
+
+  if (!isFirebaseInitialized && !excludedRoutes.includes(router.pathname)) {
+    return <div></div>
+  }
   return (
     <html lang="en">
       <body
